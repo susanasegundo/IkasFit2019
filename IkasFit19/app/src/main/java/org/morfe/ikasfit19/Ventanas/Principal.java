@@ -1,12 +1,11 @@
-package org.morfe.ikasfit19;
+package org.morfe.ikasfit19.Ventanas;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-
 import com.google.firebase.firestore.FirebaseFirestore;
+import org.morfe.ikasfit19.BaseDatos.BaseDatos;
+import org.morfe.ikasfit19.R;
 
-import java.util.HashMap;
-import java.util.Map;
 
 public class Principal extends AppCompatActivity {
 
@@ -20,14 +19,8 @@ public class Principal extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_principal);
 
-        Map<String, Object> user = new HashMap<>();
-        user.put("nombre", "David");
-        user.put("edad", "33");
-        user.put("apellidos", "Nuño");
-
-// Add a new document with a generated ID
-        db.collection("usuarios")
-                .add(user);
+        BaseDatos bd = new BaseDatos();
+        bd.guardar();
 
     }
 }
