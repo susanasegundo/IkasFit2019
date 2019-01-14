@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "271288877583",
+    "firebase_url": "https://ikasfit2019.firebaseio.com",
+    "project_id": "ikasfit2019",
+    "storage_bucket": "ikasfit2019.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:271288877583:android:28b388ea4ecfc6a3",
+        "android_client_info": {
+          "package_name": "org.morfe.ikasfit19"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "271288877583-q3c95o6kbk7p0vf4tvfnp2ci6hb0dn8l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDiBy_tbPNIHDmGJmPbV2JFgWz3n4W7RlM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
