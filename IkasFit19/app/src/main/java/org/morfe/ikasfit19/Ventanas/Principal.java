@@ -19,8 +19,7 @@ public class Principal extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_principal);
 
-        BaseDatos bd = new BaseDatos();
-        bd.guardar();
+
 
     }
 }
