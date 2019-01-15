@@ -1,15 +1,19 @@
 package org.morfe.ikasfit19.BaseDatos;
 
+import android.content.Context;
+
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class BaseDatos {
+public class BaseDatos  {
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     public BaseDatos() {
+
     }
 
    public void guardar(){
