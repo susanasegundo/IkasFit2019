@@ -1,20 +1,29 @@
 package org.morfe.ikasfit19.Ventanas;
 
 
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.fitness.Fitness;
-import com.google.android.gms.fitness.FitnessActivities;
 import com.google.android.gms.fitness.data.DataSource;
 import com.google.android.gms.fitness.data.DataType;
 import com.google.android.gms.fitness.request.DataReadRequest;
-import com.google.android.gms.fitness.result.DailyTotalResult;
 
 import org.morfe.ikasfit19.BaseDatos.BaseDatos;
 import org.morfe.ikasfit19.Clases.GetCaloriesAsyncTask;
@@ -25,17 +34,71 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class Principal extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks {
-
+    private static final int SOLICITUD_PERMISO_CALL_PHONE = 1;
+    private Intent intentoLocaliz;
     GoogleApiClient mClient;
+    private Button boton;
+    private TextView textView;
+
+
     @Override
     protected void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        boton = (Button) findViewById(R.id.button);
+        boton.setOnClickListener(this);
+        textView = (TextView) findViewById(R.id.textoMostrar);
         setContentView(R.layout.activity_principal);
         buildFitnessClient();
         BaseDatos bd = new BaseDatos();
-        bd.guardar();
+        bd.guardarUsuario();
+
+///////////////////////////////////////////////
+       /*intentoLocaliz = new Intent(Intent.ACTION_CALL, Uri.parse("tel:"+"652340176"));
+
+        //Si nos concede el permiso, lanza la llamada y lanza el toast
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
+            startActivity(intentoLocaliz);
+            Toast.makeText(this, "Permiso concedido", Toast.LENGTH_SHORT);
+        } else {
+
+            explicarUsosPermisos();
+            solicitarPermisoLlamada();
+        }*/
+    }
+   /* private void explicarUsosPermisos(){
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.CALL_PHONE)) {
+            Toast.makeText(this, "Explicamos permiso", Toast.LENGTH_SHORT);
+            alertDialogBasico();
+        }
     }
 
+    private void solicitarPermisoLlamada(){
+        ActivityCompat.requestPermissions(this, new String[] {android.Manifest.permission.CALL_PHONE}, SOLICITUD_PERMISO_CALL_PHONE);
+        Toast.makeText(this, "Pedimos el permiso", Toast.LENGTH_SHORT);
+    }
+
+
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults){
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode==SOLICITUD_PERMISO_CALL_PHONE){
+            startActivity(intentoLocaliz);
+            Toast.makeText(this, "Permiso concedido", Toast.LENGTH_SHORT);
+        }
+        else{
+            Toast.makeText(this, "Permiso denegado", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void alertDialogBasico () {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Sin el permiso de llamada no podemos realizar");
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+            }
+        });
+    }*/
 
     private void buildFitnessClient() {
         // Create the Google API Client
@@ -48,10 +111,11 @@ public class Principal extends AppCompatActivity implements GoogleApiClient.Conn
         mClient.connect();
     }
 
-
     @Override
     public void onConnected(Bundle bundle) {
         fetchUserGoogleFitData("2019-01-15");
+
+
         // selectedDate in format yyyy-MM-dd
     }
 
@@ -62,7 +126,6 @@ public class Principal extends AppCompatActivity implements GoogleApiClient.Conn
         // Handle your error messaging
 
     }
-
     public void fetchUserGoogleFitData(String date) {
         if (mClient != null && mClient.isConnected() && mClient.hasConnectedApi(Fitness.HISTORY_API)) {
 
@@ -132,5 +195,6 @@ public class Principal extends AppCompatActivity implements GoogleApiClient.Conn
                 .build();
 
     }
+
 
 }

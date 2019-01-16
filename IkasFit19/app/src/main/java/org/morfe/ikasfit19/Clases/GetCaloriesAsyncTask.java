@@ -32,27 +32,18 @@ public class GetCaloriesAsyncTask extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... params) {
         DataReadResult dataReadResult =  Fitness.HistoryApi.readData(mClient, readRequest).await(1, TimeUnit.MINUTES);
-
         for (Bucket bucket : dataReadResult.getBuckets()) {
-
             List<DataSet> dataSetx =  bucket.getDataSets();
-
-
             for (DataSet dataSet : dataSetx) {
 
                 if(dataSet.getDataType().getName().equals("com.google.step_count.delta"))
                 {
-
-
                     if(dataSet.getDataPoints().size() > 0)
                     {
                         // total steps
                         total = total +  dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
-
                     }
-
                 }
-
             }
             String bucketActivity = bucket.getActivity();
             if (bucketActivity.contains(FitnessActivities.WALKING) || bucketActivity.contains(FitnessActivities.RUNNING)) {
@@ -78,7 +69,6 @@ public class GetCaloriesAsyncTask extends AsyncTask<Void, Void, Void> {
                 }
             }
 
-
         }
         return null;
 
@@ -89,9 +79,16 @@ public class GetCaloriesAsyncTask extends AsyncTask<Void, Void, Void> {
         super.onPostExecute(dataReadResult);
 
         Log.e("GoogleFit", "Steps total is " + total);
-
         Log.e("GoogleFit", "Total cal is " + expendedCalories);
 
+    }
+
+    public int getTotal() {
+        return total;
+    }
+
+    public float getExpendedCalories() {
+        return expendedCalories;
     }
 }
 
