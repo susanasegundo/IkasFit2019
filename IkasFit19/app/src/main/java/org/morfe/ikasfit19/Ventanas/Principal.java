@@ -79,7 +79,7 @@ public class Principal extends AppCompatActivity implements OnDataPointListener,
 
         mApiClient = new GoogleApiClient.Builder(this)
                 .addApi(Fitness.SENSORS_API)
-                .addScope(new Scope(Scopes.FITNESS_ACTIVITY_READ_WRITE))
+                .addScope(Fitness.SCOPE_ACTIVITY_READ_WRITE)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .build();
