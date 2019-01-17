@@ -25,6 +25,8 @@ public class BaseDatos  {
         Map<String, Object> user = new HashMap<>();
         user.put("fecha", "15/01/2020");
         user.put("pasosTotales", 3000);
+        user.put("posicionRanking", 2);
+
         // Add a new document with a generated ID
         db.collection("usuarios")
                 .add(user)
