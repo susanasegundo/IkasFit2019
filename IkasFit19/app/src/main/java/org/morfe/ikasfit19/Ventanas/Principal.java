@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -146,6 +147,7 @@ public class Principal extends AppCompatActivity implements OnDataPointListener,
                 @Override
                 public void run() {
                     Toast.makeText(getApplicationContext(), "Field: " + field.getName() + " Value: " + value.asString(), Toast.LENGTH_SHORT).show();
+                    textView.setText( "Field: " + field.getName() + " Value: " + value.asString());
                 }
             });
         }
@@ -165,6 +167,11 @@ public class Principal extends AppCompatActivity implements OnDataPointListener,
         } else {
             Log.e("GoogleFit", "requestCode NOT request_oauth");
         }
+    }
+
+    public void mostrarDatos(View v){
+        textView.setText("Mierda");
+
     }
 
 
