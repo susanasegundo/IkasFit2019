@@ -58,7 +58,7 @@ public class Principal extends AppCompatActivity implements OnDataPointListener,
 
     private static Button boton;
     private static TextView textView;
-    private  Value value=null;
+
 
     @Override
     protected void onStart() {
@@ -69,7 +69,7 @@ public class Principal extends AppCompatActivity implements OnDataPointListener,
     @Override
     protected void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Toast.makeText(getApplicationContext(), "Field:  Value: ", Toast.LENGTH_SHORT).show();
         setContentView(R.layout.activity_principal);
         boton = (Button) findViewById(R.id.button);
         textView = (TextView) findViewById(R.id.textoMostrar);
@@ -154,12 +154,11 @@ public class Principal extends AppCompatActivity implements OnDataPointListener,
     @Override
     public void onDataPoint(DataPoint dataPoint) {
         for( final Field field : dataPoint.getDataType().getFields() ) {
-            value = dataPoint.getValue( field );
+            final Value value = dataPoint.getValue( field );
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(getApplicationContext(), "Field: " + field.getName() + " Value: " + value, Toast.LENGTH_SHORT).show();
-                    textView.setText("Field: " + field.getName() + " Value: " + value);
+                    Toast.makeText(getApplicationContext(), "Field: " + field.getName() + " Value: " + value.asString(), Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -181,5 +180,5 @@ public class Principal extends AppCompatActivity implements OnDataPointListener,
         }
     }
 
-   
+
 }
