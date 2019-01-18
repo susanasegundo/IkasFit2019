@@ -58,7 +58,7 @@ public class Principal extends AppCompatActivity implements OnDataPointListener,
 
     private static Button boton;
     private static TextView textView;
-
+    private  Value value=null;
 
     @Override
     protected void onStart() {
@@ -154,11 +154,12 @@ public class Principal extends AppCompatActivity implements OnDataPointListener,
     @Override
     public void onDataPoint(DataPoint dataPoint) {
         for( final Field field : dataPoint.getDataType().getFields() ) {
-            final Value value = dataPoint.getValue( field );
+            value = dataPoint.getValue( field );
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     Toast.makeText(getApplicationContext(), "Field: " + field.getName() + " Value: " + value, Toast.LENGTH_SHORT).show();
+                    textView.setText("Field: " + field.getName() + " Value: " + value);
                 }
             });
         }
@@ -179,4 +180,6 @@ public class Principal extends AppCompatActivity implements OnDataPointListener,
             Log.e("GoogleFit", "requestCode NOT request_oauth");
         }
     }
+
+   
 }
