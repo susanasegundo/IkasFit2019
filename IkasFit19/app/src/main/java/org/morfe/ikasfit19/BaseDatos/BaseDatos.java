@@ -34,6 +34,7 @@ public class BaseDatos  {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -43,6 +44,10 @@ public class BaseDatos  {
                     }
                 });
 
+        return true;
+    }
+
+    public boolean bucarUsuario(){
         return true;
     }
 }

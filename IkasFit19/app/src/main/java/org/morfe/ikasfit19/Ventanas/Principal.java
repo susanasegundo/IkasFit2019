@@ -15,8 +15,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.fitness.Fitness;
 import com.google.android.gms.fitness.data.DataPoint;
@@ -57,7 +59,7 @@ public class Principal extends AppCompatActivity implements OnDataPointListener,
     @Override
     protected void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Toast.makeText(getApplicationContext(), "Field:  Value: ", Toast.LENGTH_SHORT).show();
+
         setContentView(R.layout.activity_principal);
         boton = (Button) findViewById(R.id.button);
         textView = (TextView) findViewById(R.id.textoMostrar);
@@ -67,7 +69,9 @@ public class Principal extends AppCompatActivity implements OnDataPointListener,
 
         mApiClient = new GoogleApiClient.Builder(this)
                 .addApi(Fitness.SENSORS_API)
-                .addScope(Fitness.SCOPE_ACTIVITY_READ_WRITE)
+                .addApi(Fitness.HISTORY_API)
+                .addScope(Fitness.SCOPE_ACTIVITY_READ)
+                .addScope(new Scope(Scopes.FITNESS_ACTIVITY_READ))
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .build();
@@ -86,6 +90,8 @@ public class Principal extends AppCompatActivity implements OnDataPointListener,
                 .setSamplingRate( 3, TimeUnit.SECONDS )
                 .build();
 
+
+
         Fitness.SensorsApi.add( mApiClient, request, this )
                 .setResultCallback(new ResultCallback<Status>() {
                     @Override
@@ -95,12 +101,14 @@ public class Principal extends AppCompatActivity implements OnDataPointListener,
                         }
                     }
                 });
+
     }
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
+        Log.d("GoogleFit","Conectado");
         DataSourcesRequest dataSourceRequest = new DataSourcesRequest.Builder()
-                .setDataTypes( DataType.TYPE_STEP_COUNT_CUMULATIVE )
+                .setDataTypes( DataType.TYPE_STEP_COUNT_CUMULATIVE, DataType.AGGREGATE_STEP_COUNT_DELTA )
                 .setDataSourceTypes( DataSource.TYPE_RAW )
                 .build();
 
@@ -127,6 +135,7 @@ public class Principal extends AppCompatActivity implements OnDataPointListener,
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Log.d("GoogleFit","Error de conexión");
         if( !authInProgress ) {
             try {
                 authInProgress = true;
@@ -139,15 +148,17 @@ public class Principal extends AppCompatActivity implements OnDataPointListener,
         }
     }
 
+
     @Override
     public void onDataPoint(DataPoint dataPoint) {
+        Log.d("GoogleFit","Llegan datos");
         for( final Field field : dataPoint.getDataType().getFields() ) {
             final Value value = dataPoint.getValue( field );
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(getApplicationContext(), "Field: " + field.getName() + " Value: " + value.asString(), Toast.LENGTH_SHORT).show();
-                    textView.setText( "Field: " + field.getName() + " Value: " + value.asString());
+                    Toast.makeText(getApplicationContext(), "Field: " + field.getName() + " Value: " + value, Toast.LENGTH_SHORT).show();
+
                 }
             });
         }
