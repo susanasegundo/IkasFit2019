@@ -39,9 +39,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.morfe.ikasfit19.BaseDatos.BaseDatos;
+import org.morfe.ikasfit19.Clases.Usuario;
 import org.morfe.ikasfit19.R;
 
 import java.util.HashMap;
@@ -61,38 +63,42 @@ public class Principal extends AppCompatActivity implements OnDataPointListener,
     private static final String AUTH_PENDING = "auth_state_pending";
     private boolean authInProgress = false;
     private GoogleApiClient mApiClient;
-
-    private static Button boton;
-    private static TextView textView;
-    private BaseDatos bd;
-
+    private static Button botonRanking;
+    private static Button botonGuardar;
+    private static TextView textoMostrar;
+    private static TextView textoRanking;
+    private FirebaseFirestore baseDatos = FirebaseFirestore.getInstance();
     @Override
     protected void onStart() {
         super.onStart();
         mApiClient.connect();
-        mAuth = FirebaseAuth.getInstance();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
+        FirebaseUser currentUser=mAuth.getCurrentUser();
 
     }
 
     @Override
     protected void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAuth = FirebaseAuth.getInstance();
-        boton = (Button) findViewById(R.id.button);
-        textView = (TextView) findViewById(R.id.textoMostrar);
         setContentView(R.layout.activity_principal);
+        mAuth = FirebaseAuth.getInstance();
+        botonRanking = (Button) findViewById(R.id.botonRanking);
+        botonGuardar = (Button) findViewById(R.id.botonGuardarPasos);
+        textoMostrar = (TextView) findViewById(R.id.textoMostrar);
+        textoRanking = (TextView) findViewById(R.id.textoRanking);
 
+        //GoogleFit
         if (savedInstanceState != null) {
             authInProgress = savedInstanceState.getBoolean(AUTH_PENDING);
         }
+
         mApiClient = new GoogleApiClient.Builder(this)
                 .addApi(Fitness.SENSORS_API)
                 .addScope(Fitness.SCOPE_ACTIVITY_READ_WRITE) //new Scope(Scopes.FITNESS_ACTIVITY_READ_WRITE))
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .build();
-
+        //GoogleFit
+        //Firestore anónimo
         mAuth.signInAnonymously()
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -113,8 +119,10 @@ public class Principal extends AppCompatActivity implements OnDataPointListener,
                         // ...
                     }
                 });
-        bd = new BaseDatos();
-        bd.guardarUsuario(mAuth);
+        //Firestore anónimo
+
+
+
     }
 
     private void registerFitnessDataListener(DataSource dataSource, DataType dataType) {
@@ -187,7 +195,10 @@ public class Principal extends AppCompatActivity implements OnDataPointListener,
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(getApplicationContext(), "Field: " + field.getName() + " Value: " + value, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(), "Field: " + field.getName() + " Value: " + value, Toast.LENGTH_SHORT).show();
+                    textoMostrar.setText(value.toString());
+
+
                 }
             });
         }
@@ -209,10 +220,7 @@ public class Principal extends AppCompatActivity implements OnDataPointListener,
         }
     }
 
-    public void mostrarDatos(View v){
-        textView.setText("Mierda");
 
-    }
     @Override
     protected void onStop() {
         super.onStop();
@@ -233,4 +241,19 @@ public class Principal extends AppCompatActivity implements OnDataPointListener,
         outState.putBoolean(AUTH_PENDING, authInProgress);
     }
 
+    public boolean mostrarRanking(View v){
+
+        return true;
+    }
+    public boolean guardarPasos(View v){
+        DocumentReference docRef = baseDatos.collection("usuarios").document(mAuth.getUid());
+        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                Usuario usu = documentSnapshot.toObject(Usuario.class);
+                textoMostrar.setText(usu.getPasosTotales());
+            }
+        });
+        return true;
+    }
 }
