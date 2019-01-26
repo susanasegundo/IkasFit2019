@@ -59,8 +59,8 @@
         android:layout_marginStart="20dp"
         android:layout_marginEnd="64dp"
         android:layout_marginBottom="64dp"
+        android:background="@drawable/ranking2"
         android:onClick="mostrarTexto"
-        android:text="RANKING"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/botonGuardarPasos" />
@@ -72,8 +72,8 @@
         android:layout_marginStart="64dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="64dp"
+        android:background="@drawable/gp"
         android:onClick="guardarPasos"
-        android:text="GUARDAR"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/botonRanking"
         app:layout_constraintStart_toStartOf="parent" />/>
