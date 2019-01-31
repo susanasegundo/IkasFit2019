@@ -5,9 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/fon"
+    tools:context="org.morfe.ikasfit19.MainActivity">
 
+   <!--- android:background="@drawable/fon"-->
 
-    tools:context=".Ventanas.Principal">
 
     <TextView
         android:id="@+id/textoRanking"
@@ -17,7 +18,6 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="80dp"
         android:layout_marginBottom="40dp"
-        android:text="96"
         android:textAlignment="center"
         android:textColor="@android:color/holo_blue_bright"
         android:textColorHighlight="@android:color/holo_blue_bright"
@@ -35,10 +35,9 @@
         android:layout_width="248dp"
         android:layout_height="69dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="250dp"
+        android:layout_marginTop="175dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="24dp"
-        android:text="69"
         android:textAlignment="center"
         android:textColor="@android:color/holo_blue_bright"
         android:textColorHighlight="@android:color/holo_blue_bright"
@@ -53,29 +52,38 @@
         app:layout_constraintVertical_chainStyle="spread" />
 
     <Button
+        android:onClick="onClick"
         android:id="@+id/botonRanking"
         android:layout_width="wrap_content"
-        android:layout_height="51dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="64dp"
         android:layout_marginBottom="64dp"
-        android:background="@drawable/ranking2"
-        android:onClick="mostrarTexto"
+        android:background="@drawable/btn_circle"
+        android:text="Ranking"
+        android:textAllCaps="false"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/activity_horizontal_margin"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/botonGuardarPasos" />
 
     <Button
+        android:onClick="onClick"
         android:id="@+id/botonGuardarPasos"
         android:layout_width="wrap_content"
-        android:layout_height="51dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="64dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="64dp"
-        android:background="@drawable/gp"
-        android:onClick="guardarPasos"
+        android:background="@drawable/btn_circle"
+        android:text="Guardar"
+        android:textAllCaps="false"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/botonRanking"
-        app:layout_constraintStart_toStartOf="parent" />/>
+        app:layout_constraintStart_toStartOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
